@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link2, Search, ShieldCheck, ShieldAlert, AlertTriangle, Info } from 'lucide-react';
+import { getUrlReputation, UrlReputationResult } from '../lib/securityApi';
 
 interface LinkResult {
   url: string;
@@ -21,6 +22,8 @@ export const PhishingLinkView: React.FC = () => {
   const [result, setResult] = useState<LinkResult | null>(null);
   const [checks, setChecks] = useState<HeuristicCheck[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [reputation, setReputation] = useState<UrlReputationResult | null>(null);
+  const [reputationNote, setReputationNote] = useState<string | null>(null);
 
   const analyzeUrl = (rawUrl: string): { result: LinkResult; checks: HeuristicCheck[] } => {
     let checkUrl = rawUrl.trim();
@@ -197,6 +200,8 @@ export const PhishingLinkView: React.FC = () => {
     setError(null);
     setResult(null);
     setChecks([]);
+    setReputation(null);
+    setReputationNote(null);
 
     // Small artificial delay for UX
     await new Promise(r => setTimeout(r, 400));
@@ -205,6 +210,9 @@ export const PhishingLinkView: React.FC = () => {
       const { result: r, checks: c } = analyzeUrl(url);
       setResult(r);
       setChecks(c);
+      getUrlReputation(r.url)
+        .then(setReputation)
+        .catch(() => setReputationNote('Known-threat checks are not set up yet. Your local link checks still ran normally.'));
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -245,8 +253,9 @@ export const PhishingLinkView: React.FC = () => {
         </div>
         <p className="font-mono text-xs text-ink-faint flex items-center gap-1.5">
           <Info className="w-3 h-3" />
-          Runs 9 heuristic checks locally in your browser. No data is sent to any server.
+          The first 9 checks run on this device. Known-threat checks are optional and use public security services.
         </p>
+        <p className="text-xs text-ink-faint">Try an example: <button type="button" onClick={() => setUrlInput('https://example.com')} className="font-mono text-accent hover:underline">https://example.com</button></p>
       </form>
 
       {error && (
@@ -333,6 +342,20 @@ export const PhishingLinkView: React.FC = () => {
             </div>
           </div>
 
+          {reputation && (
+            <div className="bg-paper-card border border-line rounded-xl p-5 space-y-3 shadow-xs">
+              <h3 className="font-sans font-medium text-ink text-sm">Known-threat checks</h3>
+              <p className="text-xs text-ink-faint">These are separate from the local checks above. “No match” does not mean a link is safe.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <ReputationCard title="Phishing list" text={reputation.openPhish.found ? 'Known phishing match found' : reputation.openPhish.available ? 'No exact match found' : 'Not set up'} danger={Boolean(reputation.openPhish.found)} note={reputation.openPhish.note} />
+                <ReputationCard title="VirusTotal" text={reputation.virusTotal.available ? `${reputation.virusTotal.malicious || 0} harmful report(s)` : 'Not set up'} danger={(reputation.virusTotal.malicious || 0) > 0} note={reputation.virusTotal.note} />
+                <ReputationCard title="Public scan history" text={reputation.urlScan.available ? `${reputation.urlScan.matches || 0} public match(es)` : 'Not set up'} danger={false} note={reputation.urlScan.note} />
+              </div>
+            </div>
+          )}
+
+          {reputationNote && <div className="p-3 rounded border border-line bg-paper-alt text-xs text-ink-faint">{reputationNote}</div>}
+
           <p className="font-mono text-[11px] text-ink-faint">
             All checks performed locally in your browser. No data is transmitted to any external server.
           </p>
@@ -341,3 +364,11 @@ export const PhishingLinkView: React.FC = () => {
     </div>
   );
 };
+
+const ReputationCard: React.FC<{ title: string; text: string; danger: boolean; note?: string }> = ({ title, text, danger, note }) => (
+  <div className="rounded-lg border border-line bg-paper-alt/50 p-4">
+    <div className={`text-sm font-medium ${danger ? 'text-accent-dark' : 'text-ink'}`}>{title}</div>
+    <p className={`mt-1 text-sm ${danger ? 'text-accent-dark' : 'text-ink-soft'}`}>{text}</p>
+    {note && <p className="mt-1 text-xs text-ink-faint">{note}</p>}
+  </div>
+);

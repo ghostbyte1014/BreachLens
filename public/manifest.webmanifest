@@ -1,0 +1,17 @@
+{
+  "name": "BreachLens",
+  "short_name": "BreachLens",
+  "description": "Personal security awareness and breach intelligence tools.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F6F2",
+  "theme_color": "#142338",
+  "icons": [
+    {
+      "src": "/icons/breachlens.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

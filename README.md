@@ -149,6 +149,10 @@ Output is in `dist/` — deploy to any static host (Netlify, Vercel, GitHub Page
 
 ---
 
+### Free threat-intelligence checks
+
+The Threat Intelligence page can use free security services to check suspicious links, IP addresses, website email settings, certificates, and known software issues. For the optional link and IP checks, set up the small free service described in [worker/README.md](worker/README.md). It keeps your free service keys private instead of placing them in the website.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to change.

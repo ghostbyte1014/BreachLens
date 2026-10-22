@@ -6,9 +6,9 @@ import { BreachTrendsChart } from './BreachTrendsChart';
 import { calculateSecurityScore } from '../lib/scoring';
 import {
   ShieldCheck, ShieldAlert, Clock, Globe2, ListTodo, FileText,
-  KeyRound, Globe, ArrowRight, Sparkles, Search, CheckCircle2,
+  KeyRound, Globe, ArrowRight, Search, CheckCircle2,
   AlertTriangle, Tag, ClipboardCheck, Fingerprint, Link2, Zap,
-  Database, Info
+  Database, Info, Radar
 } from 'lucide-react';
 import { TabId } from './TabBar';
 
@@ -77,7 +77,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-48 h-48 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-paper text-xs font-mono text-ink-faint">
-            <Sparkles className="w-3.5 h-3.5 text-accent" />
             <span>Open Source &amp; Privacy-First Personal Security Shield</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl text-ink font-medium tracking-tight leading-tight">
@@ -356,6 +355,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             { id: 'checklist' as TabId, icon: <ClipboardCheck className="w-5 h-5" />, title: 'Security Checklist', desc: 'A practical hardening guide with 12 steps to significantly reduce your personal attack surface.' },
             { id: 'fingerprint' as TabId, icon: <Fingerprint className="w-5 h-5" />, title: 'Browser Fingerprint', desc: 'Discover what your browser reveals — WebRTC IP leaks, canvas fingerprint, screen info, and more.' },
             { id: 'linkcheck' as TabId, icon: <Link2 className="w-5 h-5" />, title: 'Phishing Link Scanner', desc: 'Paste a suspicious URL to run 9 phishing heuristic checks — brand spoofing, lookalike domains, and more.' },
+            { id: 'intel' as TabId, icon: <Radar className="w-5 h-5" />, title: 'Advanced Security Checks', desc: 'Check website email protection, public certificates, and known software security issues using free public sources.' },
             { id: 'data' as TabId, icon: <Database className="w-5 h-5" />, title: 'My Data', desc: 'Export, import or clear all your locally stored breach history, tags, and check records.' },
           ].map(tool => (
             <div key={tool.id} onClick={() => onNavigate(tool.id)}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="BreachLens">
+  <rect width="512" height="512" rx="108" fill="#142338"/>
+  <path d="M256 74 390 126v104c0 91-57 170-134 207C179 400 122 321 122 230V126L256 74Z" fill="#F5F6F2"/>
+  <path d="m218 270-38-38 24-24 14 14 64-64 24 24-88 88Z" fill="#B3271D"/>
+  <circle cx="344" cy="346" r="48" fill="#2E6E63" stroke="#F5F6F2" stroke-width="15"/>
+  <path d="m379 381 48 48" stroke="#F5F6F2" stroke-width="22" stroke-linecap="round"/>
+</svg>

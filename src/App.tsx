@@ -13,6 +13,8 @@ import { DataManagementView } from './components/DataManagementView';
 import { SecurityChecklistView } from './components/SecurityChecklistView';
 import { BrowserFingerprintView } from './components/BrowserFingerprintView';
 import { PhishingLinkView } from './components/PhishingLinkView';
+import { Footer } from './components/Footer';
+import { ThreatIntelView } from './components/ThreatIntelView';
 
 import {
   BreachItem,
@@ -333,6 +335,10 @@ export const App: React.FC = () => {
           <PhishingLinkView />
         )}
 
+        {activeTab === 'intel' && (
+          <ThreatIntelView />
+        )}
+
         {activeTab === 'data' && (
           <DataManagementView
             checkHistory={checkHistory}
@@ -346,6 +352,7 @@ export const App: React.FC = () => {
           />
         )}
       </main>
+      <Footer />
     </div>
   );
 };

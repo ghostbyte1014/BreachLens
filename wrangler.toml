@@ -1,0 +1,5 @@
+name = "breachlens-security-api"
+main = "worker/src/index.js"
+compatibility_date = "2026-10-22"
+
+# Build the website with VITE_SECURITY_API_BASE set to the Worker URL plus /api.
